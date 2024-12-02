@@ -1,20 +1,21 @@
 "use client"
-import { useFormState } from "react-dom"
-import register from "@/_actions/register"
+import { useActionState } from "react"
+import register from "@/actions/register"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import SubmitButton from "../_component/SubmitButton"
-import { style } from "../constants/style"
+import SubmitButton from "./submitButton"
 
 export default function Register() {
-    const [data, action] = useFormState(register, {})
+    const style = `border-2 border-black text-blue-800 px-2 py-1 rounded hover:bg-blue-100 focus-within:bg-blue-200`
+
+    const [data, action] = useActionState(register, {})
 
     if (data.message) {
-        redirect("/blog")
+        redirect("/")
     }
 
     return (
-        <div>
+        <div className="m-5">
             Register
             <hr />
             <form action={action} className="mt-4">
@@ -41,7 +42,7 @@ export default function Register() {
                 </div>
             </form>
             <br /><hr />
-            <Link href="/blog">Back</Link>
+            <Link href="/">Back</Link>
         </div>
     )
 }

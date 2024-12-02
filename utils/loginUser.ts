@@ -35,19 +35,19 @@ export async function loginUser(userInput:any, remember: boolean) {
   const session = await encrypt({ id, email, name, expires });
 
   // Save the session in a cookie
-  cookies().set("session", session, { expires, httpOnly: true });
+  (await cookies()).set("session", session, { expires, httpOnly: true });
   return { message: "Login Success" }
 }
 
 export async function logoutUser() {
   // Destroy the session 
-  cookies().set("session", "", { expires: new Date(0) });
-  cookies().delete('session') 
+  (await cookies()).set("session", "", { expires: new Date(0) });
+  (await cookies()).delete('session') 
   return { message: "Logout Success" }
 }
 
 export async function getSession() {
-  const session = cookies().get("session")?.value;
+  const session = (await cookies()).get("session")?.value;
   if (!session) return null;
   return await decrypt(session);
 }

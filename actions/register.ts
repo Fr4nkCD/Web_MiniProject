@@ -6,8 +6,8 @@ import { loginUser } from "@/utils/loginUser";
 import { z } from "zod";
 
 const addSchema = z.object({
-    email: z.string().email().max(20),
-    name: z.string().min(3).max(8, { message: "Not more than 8 characters" }),
+    email: z.string().email().max(50),
+    name: z.string().min(3).max(35, { message: "Not more than 35 characters" }),
     password: z.string().min(3),
 })
 
