@@ -1,6 +1,6 @@
 "use client"
 import { useActionState } from "react"
-import register from "@/actions/register"
+import login from "@/actions/login"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import SubmitButton from "@/components/submitButton"
@@ -8,7 +8,7 @@ import SubmitButton from "@/components/submitButton"
 export default function Register() {
     const style = `border-2 border-black text-blue-800 px-2 py-1 rounded hover:bg-blue-100 focus-within:bg-blue-200`
 
-    const [data, action] = useActionState(register, {})
+    const [data, action] = useActionState(login, {})
 
     if (data.message) {
         redirect("/")
@@ -32,6 +32,10 @@ export default function Register() {
                     </div>
                     <div>
                         {data.error?.message && <div className="text-red-600">{data.error?.message}</div>}
+                    </div>
+                    <div>
+                        <input className="w-6 h-6 mr-2 mb-6" type="checkbox" name="remember" id="remember" />
+                        <label className="align-top" htmlFor="remember">Remember me</label>
                     </div>
                     <div>
                         {data.message ? <p>{data.message}</p> : <SubmitButton label="Login" />}
