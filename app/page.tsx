@@ -21,13 +21,18 @@ export default async function Home() {
       </Link>
       <div className="flex gap-2">
         {user ?
-          <>Hello, {user.name}!</>
+          <div className="flex items-center gap-2 text-white">
+            Hello, {user.name}!
+            <button className={buttonStyle}>
+              Log Out
+            </button>
+          </div>
           : <>
-            <Link href="/register" className={buttonStyle}>
+            <Link href="/signup" className={buttonStyle}>
               Sign Up
             </Link>
             <Link href="/login" className={buttonStyle}>
-              Log In
+              Login
             </Link>
           </>}
       </div>
