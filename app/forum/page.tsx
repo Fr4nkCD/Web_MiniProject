@@ -18,7 +18,7 @@ export default async function Forum() {
             {posts.map((post) => (
                 <Link href={{
                     pathname: '/forum/post',
-                    query: { id: post.user.id, username: post.user.name, role: post.user.role, subject: post.subject, detail: post.detail }
+                    query: { pid: post.id, uid: post.user.id, username: post.user.name, role: post.user.role, subject: post.subject, detail: post.detail }
                 }}
                     className="border-2 rounded-md w-full flex flex-col p-4">
                     <h1 className="font-semibold text-lg">{post.subject}</h1>

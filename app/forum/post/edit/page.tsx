@@ -4,17 +4,18 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import SubmitButton from "@/components/submitButton"
 import updatePost from "@/actions/updatePost"
+import React from "react"
 
 export default function Edit({ searchParams }:
   { searchParams: { [key: string]: string } }) {
 
-  const { id, subject, detail } = searchParams;
+  const { id, subject, detail } = React.use(searchParams);
   console.log("Id: ", id, subject, detail)
 
   const [data, action] = useFormState(updatePost, {})
 
   if (data.message) {
-    redirect("/blog")
+    redirect("/forum")
   }
 
   const style = `border-2 border-black text-blue-800 px-2 py-1 rounded hover:bg-blue-100 focus-within:bg-blue-200`
@@ -43,7 +44,7 @@ export default function Edit({ searchParams }:
         </div>
       </form>
       <br /><hr />
-      <Link href="/blog">Back</Link>
+      <Link href="/forum">Back</Link>
     </>
   )
 } 
