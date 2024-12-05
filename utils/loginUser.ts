@@ -8,7 +8,7 @@ const secretKey = process.env.SECRET;
 const key = new TextEncoder().encode(secretKey);
 
 const sessionName = "spkup session" // Session name to avoid mixing up with other projects
-const TIMEOUT = 60*60 // 10 minutes
+const TIMEOUT = 60*60 // 1 hour
 
 export async function encrypt(payload: any) {
   return await new SignJWT(payload)
@@ -31,13 +31,13 @@ export async function decrypt(input: string): Promise<any> {
 }
 
 export async function loginUser(userInput:any, remember: boolean) { 
-  const {id, email, name} = userInput; 
+  const {id, email, name, role} = userInput; 
 
-  let timeout = remember == true ? 30*24*60*60 : TIMEOUT // default 1 hour
+  let timeout = remember == true ? 12*60*60 : TIMEOUT // default 1 hour
 
   // Create the session
   const expires = new Date(Date.now() + timeout * 1000);
-  const session = await encrypt({ id, email, name, expires });
+  const session = await encrypt({ id, email, name, role, expires });
 
   // Save the session in a cookie
   (await cookies()).set(sessionName, session, { expires, httpOnly: true });

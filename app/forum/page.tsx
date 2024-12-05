@@ -16,15 +16,17 @@ export default async function Forum() {
 
         <div className="py-5 px-28 flex flex-col gap-2 w-full h-full">
             {posts.map((post) => (
-                <Link href={{
-                    pathname: '/forum/post',
-                    query: { pid: post.id, uid: post.user.id, username: post.user.name, role: post.user.role, subject: post.subject, detail: post.detail }
-                }}
-                    className="border-2 rounded-md w-full flex flex-col p-4">
-                    <h1 className="font-semibold text-lg">{post.subject}</h1>
-                    <p className="pb-2 text-sm">by {post.user.name}</p>
-                    <p className="text-xs">{post.updatedAt.toDateString() + ", " + post.updatedAt.toLocaleTimeString()}</p>
-                </Link>
+                <div key={post.id}>
+                    <Link href={{
+                        pathname: '/forum/post',
+                        query: { pid: post.id, uid: post.userId, username: post.user.name, role: post.user.role, subject: post.subject, detail: post.detail }
+                    }}
+                        className="border-2 rounded-md w-full flex flex-col p-4">
+                        <h1 className="font-semibold text-lg">{post.subject}</h1>
+                        <p className="pb-2 text-sm">by {post.user.name}</p>
+                        <p className="text-xs">{post.updatedAt.toDateString() + ", " + post.updatedAt.toLocaleTimeString()}</p>
+                    </Link>
+                </div>
             ))}
         </div>
     </>

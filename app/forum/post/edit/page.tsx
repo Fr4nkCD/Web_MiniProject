@@ -1,5 +1,5 @@
 "use client"
-import { useFormState } from "react-dom"
+import { useActionState } from "react"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import SubmitButton from "@/components/submitButton"
@@ -12,7 +12,7 @@ export default function Edit({ searchParams }:
   const { id, subject, detail } = React.use(searchParams);
   console.log("Id: ", id, subject, detail)
 
-  const [data, action] = useFormState(updatePost, {})
+  const [data, action] = useActionState(updatePost, {})
 
   if (data.message) {
     redirect("/forum")

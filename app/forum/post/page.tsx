@@ -20,7 +20,7 @@ export default async function PostDetail({ searchParams }: { searchParams: { [ke
                     <span className="text-gray-600 font-semibold">{username}</span>
                     <span className="text-gray-400">{role}</span>
                 </p>
-                {(user && user.id == uid) ? <Link href={{
+                {(user && user.id == uid || user.role == "Admin") ? <Link href={{
                     pathname: '/forum/post/edit',
                     query: { id: pid, subject: subject, detail: detail }
                 }}
