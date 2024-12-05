@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
     if (res)
         return res
     else
-        return NextResponse.redirect(new URL("/blog/login", request.url))
+        return NextResponse.redirect(new URL("/login", request.url))
 
     // === Short coing style
     // return (await updateSession(request)) || NextResponse.redirect(new URL("/blog/login", request.url));
@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
 
 // if path matches with matcher config, then it invoke middleware(request)
 export const config = {
-    matcher: '/blog/new/:path*',
+    matcher: '/forum/:path*',
 }
 
 // export const config = {

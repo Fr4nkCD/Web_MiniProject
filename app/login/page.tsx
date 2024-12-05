@@ -1,9 +1,10 @@
 "use client"
 import { useActionState } from "react"
 import login from "@/actions/login"
-import { redirect } from "next/navigation"
-import Link from "next/link"
 import SubmitButton from "@/components/submitButton"
+
+import Image from "next/image"
+import logo from "@/resources/SpeakUp.webp"
 
 export default function Register() {
     const style = `border-2 border-black text-blue-800 px-2 py-1 rounded hover:bg-blue-100 focus-within:bg-blue-200`
@@ -11,11 +12,17 @@ export default function Register() {
     const [data, action] = useActionState(login, {})
 
     if (data.message) {
-        redirect("/")
+        window.location.replace('/')
     }
 
     return (
-        <div className="min-h-screen flex justify-center items-center bg-gradient-to-b from-[#64acff] to-[#2073d2] ">
+        <div className="min-h-screen p-4 flex flex-col items-center bg-gradient-to-b from-[#64acff] to-[#2073d2] ">
+            <Image
+                src={logo}
+                alt="SpeakUp"
+                width={400}
+                className="m-5"
+            />
             <div className="w-1/2 h-full p-5 rounded-md bg-white">
                 <h1 className="text-center">Login</h1>
                 <hr />
@@ -44,7 +51,7 @@ export default function Register() {
                 <br />
                 <div className="flex gap-1 justify-center text-sm">
                     Don't have an account?
-                    <Link href="/signup" className="text-blue-500 hover:underline">Sign up</Link>
+                    <button onClick={() => window.location.href = "/signup"} className="text-blue-500 hover:underline">Sign up</button>
                 </div>
             </div>
         </div>
