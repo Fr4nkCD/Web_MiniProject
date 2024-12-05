@@ -12,7 +12,7 @@ export default function Register() {
     const [data, action] = useActionState(login, {})
 
     if (data.message) {
-        window.location.replace('/')
+        location.replace('/')
     }
 
     return (
@@ -42,7 +42,7 @@ export default function Register() {
                     </div>
                     <div>
                         <input className="w-6 h-6 mr-2 mb-6" type="checkbox" name="remember" id="remember" />
-                        <label className="align-top" htmlFor="remember">Remember me</label>
+                        <label className="align-top" htmlFor="remember">Remember me for 30 days</label>
                     </div>
                     <div>
                         {data.message ? <p>{data.message}</p> : <SubmitButton label="Login" />}
@@ -51,7 +51,7 @@ export default function Register() {
                 <br />
                 <div className="flex gap-1 justify-center text-sm">
                     Don't have an account?
-                    <button onClick={() => window.location.href = "/signup"} className="text-blue-500 hover:underline">Sign up</button>
+                    <button onClick={() => location.href = "/signup"} className="text-blue-500 hover:underline">Sign up</button>
                 </div>
             </div>
         </div>

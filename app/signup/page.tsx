@@ -12,7 +12,7 @@ export default function Register() {
     const [data, action] = useActionState(register, {})
 
     if (data.message) {
-        window.location.replace('/')
+        location.replace('/')
     }
 
     return (
@@ -24,7 +24,7 @@ export default function Register() {
                 className="m-5"
             />
             <div className="w-1/2 h-full p-5 rounded-md bg-white">
-                <h1 className="text-center">Sign up to speak up!</h1>
+                <h1 className="text-center">Create an account to Speak Up!</h1>
                 <hr />
                 <form action={action} className="mt-4 flex flex-col items-center">
                     <div className="flex flex-col mb-2 w-full">
@@ -52,7 +52,7 @@ export default function Register() {
                 <br />
                 <div className="flex gap-1 justify-center text-sm">
                     Already have an account?
-                    <button onClick={() => window.location.href = "/login"} className="text-blue-500 hover:underline">Login</button>
+                    <button onClick={() => location.href = "/login"} className="text-blue-500 hover:underline">Login</button>
                 </div>
             </div>
         </div>

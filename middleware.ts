@@ -4,9 +4,9 @@ import { updateSession } from "./utils/loginUser";
 export async function middleware(request: NextRequest) {
     console.log("Middleware invoked")
     const res = await updateSession(request)
-    if (res)
-        return res
-    else
+    if (res) {
+        return null
+    } else
         return NextResponse.redirect(new URL("/login", request.url))
 
     // === Short coing style
@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
 
 // if path matches with matcher config, then it invoke middleware(request)
 export const config = {
-    matcher: '/forum/:path*',
+    matcher: ['/forum/:path*', '/account/:path*'],
 }
 
 // export const config = {

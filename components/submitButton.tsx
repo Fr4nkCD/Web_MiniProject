@@ -1,10 +1,10 @@
 "use client"
 import { useFormStatus } from "react-dom"
-import buttonStyle from "@/components/buttonStyle"
+import {buttonRound1} from "@/components/stylesheet"
 
 export default function SubmitButton({ label }: { label: string }) {
     const { pending } = useFormStatus()
-    return <button className={buttonStyle} disabled={pending} type="submit">
+    return <button className={buttonRound1} disabled={pending} type="submit">
         {pending ? "Submitting..." : label}
     </button>
 }

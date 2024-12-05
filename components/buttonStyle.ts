@@ -1,1 +1,0 @@
-export default "bg-gradient-to-b from-white to-gray-200 text-black font-semibold px-3 py-2 rounded-md hover:to-white hover:from-gray-200"

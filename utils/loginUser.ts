@@ -7,7 +7,8 @@ import { NextRequest, NextResponse } from "next/server";
 const secretKey = process.env.SECRET;
 const key = new TextEncoder().encode(secretKey);
 
-const TIMEOUT = 300 // 300 second
+const sessionName = "spkup session" // Session name to avoid mixing up with other projects
+const TIMEOUT = 60*60 // 10 minutes
 
 export async function encrypt(payload: any) {
   return await new SignJWT(payload)
@@ -32,32 +33,32 @@ export async function decrypt(input: string): Promise<any> {
 export async function loginUser(userInput:any, remember: boolean) { 
   const {id, email, name} = userInput; 
 
-  let timeout = remember ? 24*60*60 : TIMEOUT // default 5 mins
+  let timeout = remember == true ? 30*24*60*60 : TIMEOUT // default 1 hour
 
   // Create the session
   const expires = new Date(Date.now() + timeout * 1000);
   const session = await encrypt({ id, email, name, expires });
 
   // Save the session in a cookie
-  (await cookies()).set("session", session, { expires, httpOnly: true });
+  (await cookies()).set(sessionName, session, { expires, httpOnly: true });
   return { message: "Login Success" }
 }
 
 export async function logoutUser() {
   // Destroy the session 
-  (await cookies()).set("session", "", { expires: new Date(0) });
+  (await cookies()).set(sessionName, "", { expires: new Date(0) });
   (await cookies()).delete('session') 
   return { message: "Logout Success" }
 }
 
 export async function getSession() {
-  const session = (await cookies()).get("session")?.value;
+  const session = (await cookies()).get(sessionName)?.value;
   if (!session) return null;
   return await decrypt(session);
 }
 
 export async function updateSession(request: NextRequest) {
-  const session = request.cookies.get("session")?.value;
+  const session = request.cookies.get(sessionName)?.value;
   if (!session) return;
 
   // Refresh the session so it doesn't expire
@@ -67,7 +68,7 @@ export async function updateSession(request: NextRequest) {
   parsed.expires = new Date(Date.now() + TIMEOUT * 1000);
   const res = NextResponse.next();
   res.cookies.set({
-    name: "session",
+    name: sessionName,
     // secure: true,   // if https is used
     value: await encrypt(parsed),
     httpOnly: true,
