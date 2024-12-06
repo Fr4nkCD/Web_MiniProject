@@ -52,7 +52,7 @@ export default function Register() {
                 <br />
                 <div className="flex gap-1 justify-center text-sm">
                     Already have an account?
-                    <button onClick={() => location.href = "/login"} className="text-blue-500 hover:underline">Login</button>
+                    <button onClick={() => location.replace("/login")} className="text-blue-500 hover:underline">Login</button>
                 </div>
             </div>
         </div>

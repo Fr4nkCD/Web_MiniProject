@@ -2,6 +2,7 @@
 import { useActionState } from "react"
 import login from "@/actions/login"
 import SubmitButton from "@/components/submitButton"
+import Link from "next/link"
 
 import Image from "next/image"
 import logo from "@/resources/SpeakUp.webp"
@@ -51,7 +52,7 @@ export default function Register() {
                 <br />
                 <div className="flex gap-1 justify-center text-sm">
                     Don't have an account?
-                    <button onClick={() => location.href = "/signup"} className="text-blue-500 hover:underline">Sign up</button>
+                    <button onClick={() => location.replace("/signup")} className="text-blue-500 hover:underline">Sign up</button>
                 </div>
             </div>
         </div>

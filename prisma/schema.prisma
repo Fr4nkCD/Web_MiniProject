@@ -11,12 +11,13 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
   name     String
   password String
-  role     String @default("Member")
+  role     String  @default("Member")
   posts    Post[]
+  Reply    Reply[]
 }
 
 model Post {
@@ -24,8 +25,21 @@ model Post {
   subject   String
   detail    String
   likes     Int      @default(0)
+  replies   Reply[]
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Reply {
+  id        Int      @id @default(autoincrement())
+  detail    String
+  likes     Int      @default(0)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Post      Post?    @relation(fields: [postId], references: [id])
+  postId    Int?
 }

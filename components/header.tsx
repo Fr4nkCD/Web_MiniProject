@@ -55,18 +55,18 @@ export default function Header() {
               />
             </button>
             <div className="-translate-x-1/2 absolute top-full flex flex-col bg-white rounded-md drop-shadow-md p-3"
-            style={{display: accMenuUp ? 'block' : 'none'}}>
+              style={{ display: accMenuUp ? 'block' : 'none' }}>
               <p className="text-xl font-semibold p-2">{username}</p>
               <section className="w-full">
-              <button onClick={() => location.assign('/account')} className={buttonBasic}> Account </button>
-                <button onClick={() => location.assign('/account/settings')} className={buttonBasic}> Settings </button>
+                <Link href="/account" className={buttonBasic}> Account </Link>
+                <Link href="/account/settings" className={buttonBasic}> Settings </Link>
                 <button onClick={logout} className={buttonBasic}> Logout </button>
               </section>
             </div>
           </div>
           : <>
-            <Link href="/signup" className={buttonRound1}> Sign Up </Link>
-            <Link href="/link" className={buttonRound1}> Login </Link>
+            <button onClick={() => location.href = "/signup"} className={buttonRound1}> Sign Up </button>
+            <button onClick={() => location.href = "/login"} className={buttonRound1}> Login </button>
           </>}
       </div>
     </div> : <></>;

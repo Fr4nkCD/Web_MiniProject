@@ -1,3 +1,4 @@
+import { getSession } from "@/utils/loginUser";
 import prisma from "@/utils/db";
 import Link from "next/link"
 import { buttonRound1 } from "@/components/stylesheet"
@@ -9,8 +10,10 @@ export default async function Forum() {
         },
     });
 
+    const user = await getSession()
+
     return <>
-        <div className="flex justify-end items-center p-5">
+        <div style={{visibility: user ? "visible" : "hidden"}} className="flex justify-end items-center p-4">
             <Link href="/forum/newPost" className={buttonRound1}> New Post </Link>
         </div>
 
