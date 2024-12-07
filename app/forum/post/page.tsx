@@ -84,7 +84,7 @@ export default async function PostDetail({ searchParams }: { searchParams: { [ke
                 </div>
             </div>
             <section className="px-4 py-6">
-                {post?.imageURL ? <div className="flex justify-center"> <img src={post.imageURL} /> </div> : <></>}
+                {post?.imageURL ? <div className="flex justify-center"> <img src={post.imageURL} style={{maxWidth: '800px'}} /> </div> : <></>}
                 <br />
                 {post?.detail}
             </section>
