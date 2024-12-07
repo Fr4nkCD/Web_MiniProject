@@ -3,14 +3,23 @@
 import prisma from "@/utils/db";
 
 export default async function deletePost(id: number) {
+    // Delete replies first before deleting the post
     try {
-        const deletedPost = await prisma.post.delete({
+        await prisma.reply.deleteMany({
+            where: {
+                postId: id,
+            },
+        });
+
+        await prisma.post.delete({
             where: {
                 id,
             },
         });
-        console.log('Post deleted:', deletedPost);
+
+        console.log('Post deleted');
+
     } catch (error) {
-        console.error('Error deleting post:', error);
+        console.warn('Error deleting post:', error);
     }
 } 

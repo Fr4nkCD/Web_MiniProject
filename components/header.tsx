@@ -37,13 +37,20 @@ export default function Header() {
   // Don't show topbar on login and signup pages.
   return (path != "/login" && path != "/signup") ?
     <div className="sticky top-0 z-10 w-full h-[4em] px-4 py-2 bg-gradient-to-b from-[#64acff] to-[#267fe6] flex justify-between items-center">
-      <button onClick={() => location.href = "/"}>
-        <Image
-          src={logo}
-          alt="SpeakUp"
-          width={215}
-        />
-      </button>
+      <div className="flex gap-4 items-center">
+        <button onClick={() => location.assign("/")}>
+          <Image
+            src={logo}
+            alt="SpeakUp"
+            width={215}
+          />
+        </button>
+
+        <div className="text-white text-lg">
+          <button onClick={() => location.assign("/forum")} className="transition duration-100 hover:bg-[rgba(255,255,255,0.1)] rounded-md p-2"> Forum </button>
+        </div>
+      </div>
+
       <div className="flex gap-2">
         {username ?
           <div className="relative">
@@ -65,8 +72,8 @@ export default function Header() {
             </div>
           </div>
           : <>
-            <button onClick={() => location.href = "/signup"} className={buttonRound1}> Sign Up </button>
-            <button onClick={() => location.href = "/login"} className={buttonRound1}> Login </button>
+            <button onClick={() => location.assign("/signup")} className={buttonRound1}> Sign Up </button>
+            <button onClick={() => location.assign("/login")} className={buttonRound1}> Login </button>
           </>}
       </div>
     </div> : <></>;

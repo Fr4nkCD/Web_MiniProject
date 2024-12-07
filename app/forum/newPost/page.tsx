@@ -12,8 +12,9 @@ export default function New() {
     const [data, action] = useActionState(post, {})
 
     if (data.message) {
-        redirect("/forum")
+        redirect("/forum/post?id=" + data.data)
     }
+    
     return (
         <>
             New

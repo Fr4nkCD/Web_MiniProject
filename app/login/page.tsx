@@ -2,7 +2,6 @@
 import { useActionState } from "react"
 import login from "@/actions/login"
 import SubmitButton from "@/components/submitButton"
-import Link from "next/link"
 
 import Image from "next/image"
 import logo from "@/resources/SpeakUp.webp"
@@ -13,7 +12,7 @@ export default function Register() {
     const [data, action] = useActionState(login, {})
 
     if (data.message) {
-        location.replace('/')
+        location.replace('/forum')
     }
 
     return (
@@ -41,10 +40,10 @@ export default function Register() {
                     <div>
                         {data.error?.message && <div className="text-red-600">{data.error?.message}</div>}
                     </div>
-                    <div>
-                        <input className="w-6 h-6 mr-2 mb-6" type="checkbox" name="remember" id="remember" />
+                    {/* <div>
+                        <input className="w-6 h-6 mr-2 mb-6" type="checkbox" name="remember" id="remember"/>
                         <label className="align-top" htmlFor="remember">Remember me for 30 days</label>
-                    </div>
+                    </div> */}
                     <div>
                         {data.message ? <p>{data.message}</p> : <SubmitButton label="Login" />}
                     </div>

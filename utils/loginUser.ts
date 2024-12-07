@@ -8,7 +8,8 @@ const secretKey = process.env.SECRET;
 const key = new TextEncoder().encode(secretKey);
 
 const sessionName = "spkup session" // Session name to avoid mixing up with other projects
-const TIMEOUT = 60*60 // 1 hour
+const TIMEOUT = 24*60*60 // 1 day
+const TIMEOUT_remember = 30*TIMEOUT // 30 day
 
 export async function encrypt(payload: any) {
   return await new SignJWT(payload)
@@ -23,6 +24,7 @@ export async function decrypt(input: string): Promise<any> {
     const { payload } = await jwtVerify(input, key, {
       algorithms: ["HS256"],
     });
+    // console.log(payload)
     return payload;
   } catch(error) {
     console.warn("Token Verification Error: " + error)
@@ -33,7 +35,7 @@ export async function decrypt(input: string): Promise<any> {
 export async function loginUser(userInput:any, remember: boolean) { 
   const {id, email, name, role} = userInput; 
 
-  let timeout = remember == true ? 12*60*60 : TIMEOUT // default 1 hour
+  let timeout = remember ? TIMEOUT_remember : TIMEOUT // default 1 hour
 
   // Create the session
   const expires = new Date(Date.now() + timeout * 1000);

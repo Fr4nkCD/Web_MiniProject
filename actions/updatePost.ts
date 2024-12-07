@@ -2,7 +2,6 @@
 
 import prisma from "@/utils/db"
 import { getSession } from "@/utils/loginUser";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const addSchema = z.object({
@@ -55,6 +54,5 @@ export default async function updatePost(prevState: unknown, formData: FormData)
         console.log("error: " + error)
         return { error: { message: error + "" } }
     }
-    revalidatePath("/forum")
     return { message: "success" }
 }
