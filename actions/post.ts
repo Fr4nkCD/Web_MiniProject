@@ -7,7 +7,7 @@ import { z } from "zod";
 const addSchema = z.object({
     subject: z.string().min(3).max(100),
     imageURL: z.string(),
-    detail: z.string().min(10),
+    detail: z.string().min(3),
 })
 
 type fieldErrors = {

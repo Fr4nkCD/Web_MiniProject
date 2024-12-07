@@ -8,13 +8,13 @@ import Image from "next/image";
 const style = "p-3 flex items-center gap-2 mr-3 rounded-full transition duration-100 hover:bg-gray-100"
 
 export function DeletePostButton({ id }: { id: number }) {
-    return <button className={style} onClick={() => {deletePost(id)}}>
+    return <button className={style} onClick={() => {deletePost(id), location.replace("/forum")}}>
         <Image src={deleteIcon} width={20} title="Delete this post" alt="Edit" />
     </button>
 }
 
 export function DeleteReplyButton({ id }: { id: number }) {
-    return <button className={style} onClick={() => {deleteReply(id)}}>
+    return <button className={style} onClick={() => {deleteReply(id), location.reload()}}>
         <Image src={deleteIcon} width={20} title="Delete this reply" alt="Edit" />
     </button>
 }

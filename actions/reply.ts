@@ -5,7 +5,7 @@ import { getSession } from "@/utils/loginUser";
 import { z } from "zod";
 
 const addSchema = z.object({
-    detail: z.string().min(10),
+    detail: z.string().min(3),
     postId: z.number(),
 })
 
