@@ -1,6 +1,6 @@
 "use client"
 
-import Link from "next/link";
+// import Link from "next/link";
 import { getSession } from "@/utils/loginUser";
 import { logoutUser } from "@/utils/loginUser";
 import { useState, useEffect } from "react";
@@ -12,19 +12,22 @@ import account from "@/resources/Account.webp"
 
 export default function Header() {
   const [username, setUsername] = useState('')
+  const [avatar, setAvatar] = useState('')
   const path = location.pathname
 
   // Get user (server-to-client)
   useEffect(() => {
-    async function setName() {
+    async function getUser() {
       try {
         const user = await getSession()
-        if (user)
+        if (user) {
           setUsername(user.name)
+          setAvatar(user.avatar)
+        }
       } catch (error) {
-        console.warn("Get Username Error: " + error)
+        console.warn("Get username and avatar Error: " + error)
       }
-    } setName()
+    } getUser()
   })
 
   async function logout() {
@@ -48,6 +51,7 @@ export default function Header() {
 
         <div className="text-white text-lg">
           <button onClick={() => location.assign("/forum")} className="transition duration-100 hover:bg-[rgba(255,255,255,0.1)] rounded-md p-2"> Forum </button>
+          <button onClick={() => location.assign("/users")} className="transition duration-100 hover:bg-[rgba(255,255,255,0.1)] rounded-md p-2"> Users </button>
         </div>
       </div>
 
@@ -56,18 +60,18 @@ export default function Header() {
           <div className="relative">
             <button onClick={() => toggleAccMenu(!accMenuUp)}>
               <Image
-                src={account}
-                alt="SpeakUp"
-                width={50}
+              src={account}
+              width={50}
+              alt="Account"
               />
             </button>
             <div className="-translate-x-1/2 absolute top-full flex flex-col bg-white rounded-md drop-shadow-md p-3"
               style={{ display: accMenuUp ? 'block' : 'none' }}>
               <p className="text-xl font-semibold p-2">{username}</p>
               <section className="w-full">
-                <Link href="/account" className={buttonBasic}> Account </Link>
-                <Link href="/account/settings" className={buttonBasic}> Settings </Link>
-                <button onClick={logout} className={buttonBasic}> Logout </button>
+                {/* <Link href="/account" className={buttonBasic}> Account </Link>
+                <Link href="/account/settings" className={buttonBasic}> Settings </Link> */}
+                <button onClick={logout} className={`${buttonBasic} rounded-sm`}> Logout </button>
               </section>
             </div>
           </div>

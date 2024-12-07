@@ -57,5 +57,5 @@ export default async function reply(prevState: unknown, formData: FormData):
         console.log("error: " + error)
         return { error: { message: "Invalid email address" + error } }
     }
-    return { message: "Added reply successful" }
+    return { message: "Reply successfully added" }
 }

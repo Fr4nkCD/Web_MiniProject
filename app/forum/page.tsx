@@ -14,7 +14,7 @@ export default async function Forum() {
     const user = await getSession()
 
     return <>
-        <div className="font-semibold px-14 py-5 text-3xl"> Forum </div>
+        <h1 className="font-semibold px-14 py-5 text-3xl text-indigo-800"> Forum </h1>
 
         <div style={{ visibility: user ? "visible" : "hidden" }} className="flex justify-end items-center px-14 p-4">
             <Link href="/forum/newPost" className={buttonRound1}> New Post </Link>

@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
 
 // if path matches with matcher config, then it invoke middleware(request)
 export const config = {
-    matcher: ['/account/:path*', '/forum/newPost', '/forum/post/edit'],
+    matcher: ['/account/:path*', '/forum/newPost', '/forum/post/edit', '/forum/post/editReply'],
 }
 
 // export const config = {

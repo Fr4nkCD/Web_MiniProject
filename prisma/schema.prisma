@@ -15,11 +15,12 @@ model User {
   email    String  @unique
   name     String
   password String
-  avatarURL   String?
+  avatar   String  @default("https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg")
   role     String  @default("Member")
   posts    Post[]
-  Reply    Reply[]
-  Banned   Boolean @default(false)
+  reply    Reply[]
+  banned   Boolean @default(false)
+  likes    Like[]
 }
 
 model Post {
@@ -27,7 +28,7 @@ model Post {
   subject   String
   detail    String
   imageURL  String?
-  likes     Int      @default(0)
+  likes     Like[]
   replies   Reply[]
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
@@ -38,11 +39,21 @@ model Post {
 model Reply {
   id        Int      @id @default(autoincrement())
   detail    String
-  likes     Int      @default(0)
+  likes     Like[]
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Post      Post    @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
   postId    Int
+}
+
+model Like {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id])
+  postId  Int?
+  post    Post?  @relation(fields: [postId], references: [id])
+  replyId Int?
+  reply   Reply? @relation(fields: [replyId], references: [id])
 }

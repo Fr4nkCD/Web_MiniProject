@@ -55,5 +55,5 @@ export default async function register(prevState: unknown, formData: FormData):
         console.log("error: " + error)
         return { error: { message: error + "" } }
     }
-    return { message: "Added user successful" }
+    return { message: "Register completed" }
 }

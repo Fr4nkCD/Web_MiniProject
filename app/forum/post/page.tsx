@@ -2,9 +2,12 @@ import { getSession } from "@/utils/loginUser";
 import Link from "next/link";
 import { buttonRound1 } from "@/components/stylesheet";
 import { DeletePostButton, DeleteReplyButton } from "./deleteButton";
+import LikeButton from "@/components/likeButton";
 import Reply from "./reply";
 import prisma from "@/utils/db";
 import moment from "moment";
+import editIcon from "@/resources/edit-icon.svg";
+import Image from "next/image";
 
 export default async function PostDetail({ searchParams }: { searchParams: { [key: string]: string } }) {
     const { id } = searchParams;
@@ -17,6 +20,7 @@ export default async function PostDetail({ searchParams }: { searchParams: { [ke
         },
         include: {
             user: true,
+            likes: true,
         },
     })
 
@@ -28,24 +32,39 @@ export default async function PostDetail({ searchParams }: { searchParams: { [ke
         },
         include: {
             user: true,
+            likes: true,
         },
     });
 
     const user = await getSession()
+    const userHasLiked = await prisma.like.findFirst({
+        where: { userId: user.id, postId: post.id },
+    }) !== null;
+    const userHasLikedReplies = await Promise.all(
+        replies.map(async (reply) => ({
+            ...reply,
+            userHasLiked: await prisma.like.findFirst({
+                where: { userId: user.id, replyId: reply.id },
+            }) !== null,
+        }))
+    );
+
 
     return <div className="p-10">
         <div>
+            <Link href="/forum" className="font-semibold p-3 w-[100px] text-indigo-800"> Forum </Link>
+            <br />
             <hr />
             <br />
             <div className="flex justify-between">
                 <h1 className="text-3xl font-semibold">{post?.subject}</h1>
-                <div className="flex justify-end gap-3 items-center h-5">
+                <div className="flex justify-end items-center h-5">
                     {(user && user.id == post?.userId) ? <Link href={{
                         pathname: '/forum/post/edit',
-                        query: { id: postId, subject: post?.subject, detail: post?.detail }
+                        query: { id: postId, subject: post?.subject, imageURL: post?.imageURL || '', detail: post?.detail }
                     }}
-                        className={buttonRound1}>
-                        Edit
+                        className="p-3 flex items-center gap-2 mr-3 rounded-full transition duration-100 hover:bg-gray-100" title="Edit this post">
+                        <Image src={editIcon} width={20} alt="Edit" />
                     </Link> : <></>}
                     {(user && (user.id == post?.userId || user.role == "Admin")) ?
                         <DeletePostButton id={postId} /> : <></>}
@@ -70,16 +89,24 @@ export default async function PostDetail({ searchParams }: { searchParams: { [ke
                 {post?.detail}
             </section>
 
+            <div className="flex gap-3 justify-between items-center">
+                <div style={{ visibility: user ? "visible" : "hidden" }}>
+                    <Reply postId={postId} />
+                </div>
 
-            <div style={{ visibility: user ? "visible" : "hidden" }}>
-                <Reply postId={postId} />
+                <LikeButton
+                    initialCount={post.likes.length}
+                    initialLiked={userHasLiked}
+                    postId={postId}
+                />
             </div>
+
 
             <br /><hr />
         </div>
 
         <div>
-            {replies.map((reply) => (
+            {userHasLikedReplies.map((reply) => (
                 <div key={reply.id}>
                     <div className="pt-4 flex justify-between items-center">
                         <div className="flex gap-2">
@@ -93,13 +120,18 @@ export default async function PostDetail({ searchParams }: { searchParams: { [ke
                     </div>
                     <section className="px-4 pt-4 pb-6">{reply.detail}</section>
 
-                    <div className="flex gap-3 justify-end items-center">
+                    <div className="flex justify-end items-center">
+                        <LikeButton
+                            initialCount={reply.likes.length}
+                            initialLiked={userHasLiked}
+                            replyId={reply.id}
+                        />
                         {(user && user.id == reply.userId) ? <Link href={{
-                            pathname: '/forum/post/edit',
-                            query: { id: postId, subject: post?.subject, imageURL: post?.imageURL, detail: post?.detail }
+                            pathname: '/forum/post/editReply',
+                            query: { id: reply.id, detail: reply.detail, postId: postId }
                         }}
-                            className={buttonRound1}>
-                            Edit
+                            className="p-3 flex items-center gap-2 mr-3 rounded-full transition duration-100 hover:bg-gray-100" title="Edit this reply">
+                            <Image src={editIcon} width={20} alt="Edit" />
                         </Link> : <></>}
                         {(user && (user.id == reply.userId || user.role == "Admin")) ?
                             <DeleteReplyButton id={reply.id} /> : <></>}
