@@ -5,10 +5,9 @@ import SubmitButton from "@/components/submitButton"
 
 import Image from "next/image"
 import logo from "@/resources/SpeakUp.webp"
+import { textbox1 } from "@/components/stylesheet"
 
 export default function Register() {
-    const style = `border-2 border-black text-blue-800 px-2 py-1 rounded hover:bg-blue-100 focus-within:bg-blue-200`
-
     const [data, action] = useActionState(login, {})
 
     if (data.message) {
@@ -24,17 +23,17 @@ export default function Register() {
                 className="m-5"
             />
             <div className="w-1/2 h-full p-5 rounded-md bg-white">
-                <h1 className="text-center">Login</h1>
+                <h1 className="text-center text-lg font-semibold mb-4"> Login </h1>
                 <hr />
                 <form action={action} className="mt-4 flex flex-col items-center">
                     <div className="flex flex-col mb-2 w-full">
                         <label htmlFor="email">Email</label>
-                        <input className={style} type="email" name="email" id="email" required />
+                        <input className={textbox1} type="email" name="email" id="email" required />
                         {data.error?.email && <div className="text-red-600">{data.error?.email[0]}</div>}
                     </div>
                     <div className="flex flex-col mb-6 w-full">
                         <label htmlFor="password">Password</label>
-                        <input className={style} type="password" name="password" id="password" required />
+                        <input className={textbox1} type="password" name="password" id="password" required />
                         {data.error?.password && <div className="text-red-600">{data.error?.password[0]}</div>}
                     </div>
                     <div>

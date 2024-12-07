@@ -1,38 +1,42 @@
 "use client"
 import { useActionState } from "react"
-import { redirect } from "next/navigation"
 import Link from "next/link"
 import SubmitButton from "@/components/submitButton"
 import updatePost from "@/actions/updatePost"
 import React from "react"
+import { buttonBasic2, textbox1 } from "@/components/stylesheet"
 
 export default function Edit({ searchParams }:
   { searchParams: { [key: string]: string } }) {
 
-  const { id, subject, detail } = React.use(searchParams);
-  console.log("Id: ", id, subject, detail)
+  const { id, subject, imageURL, detail } = React.use(searchParams);
+  console.log("Id: %s\nSubject: %s\nImageURL: %s\nDetail: %s", id, subject, imageURL, detail)
 
   const [data, action] = useActionState(updatePost, {})
 
   if (data.message) {
-    redirect("/forum")
+    location.replace("/forum/post?id=" + data.data)
   }
 
-  const style = `border-2 border-black text-blue-800 px-2 py-1 rounded hover:bg-blue-100 focus-within:bg-blue-200`
-
   return (
-    <>
-      Edit
+    <div className="m-10 flex flex-col">
+      <h1 className="text-lg font-semibold text-center">Edit Post</h1>
+      <br/>
       <hr />
       <form action={action} className="mt-4">
         <div className="flex flex-col mb-2">
-          <label htmlFor="subject">Subject</label>
-          <input className={style} type="subject" name="subject" id="subject" defaultValue={subject} required />
+          <label htmlFor="subject" className="font-semibold text-sm mb-2">Title</label>
+          <input className={textbox1} type="subject" name="subject" id="subject" defaultValue={subject} required />
           {data.error?.subject && <div className="text-red-600">{data.error?.subject[0]}</div>}
         </div>
+        <div className="flex flex-col mb-2">
+          <label htmlFor="subject" className="font-semibold text-sm mb-2">Thumbnail URL (Optional)</label>
+          <input className={textbox1} type="url" name="imageURL" id="imageURL" defaultValue={imageURL} />
+          {data.error?.imageURL && <div className="text-red-600">{data.error?.imageURL[0]}</div>}
+        </div>
         <div className="flex flex-col mb-4">
-          <label htmlFor="detail">Detail</label>
-          <textarea className={style} name="detail" id="detail" defaultValue={detail} required />
+          <label htmlFor="detail" className="font-semibold text-sm mb-2">Detail</label>
+          <textarea className={`${textbox1} min-h-[128px]`} name="detail" id="detail" defaultValue={detail} required />
           {data.error?.detail && <div className="text-red-600">{data.error?.detail[0]}</div>}
         </div>
         <div><input type="hidden" name="id" id="id" value={id} /></div>
@@ -43,8 +47,8 @@ export default function Edit({ searchParams }:
           {data.message ? <p>{data.message}</p> : <SubmitButton label="Update" />}
         </div>
       </form>
-      <br /><hr />
-      <Link href="/forum">Back</Link>
-    </>
+      <br /><hr /><br />
+      <Link href={"/forum/post?id=" + id} className={`${buttonBasic2} border rounded-md w-[64px] text-center`}>Back</Link>
+    </div>
   )
 } 

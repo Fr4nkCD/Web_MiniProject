@@ -6,11 +6,13 @@ import { z } from "zod";
 
 const addSchema = z.object({
     subject: z.string().min(3).max(100),
+    imageURL: z.string(),
     detail: z.string().min(10),
 })
 
 type fieldErrors = {
     subject?: string[] | undefined;
+    imageURL?: string[] | undefined;
     detail?: string[] | undefined;
     message?: string | undefined;
 }
@@ -32,7 +34,7 @@ export default async function post(prevState: unknown, formData: FormData):
     }
 
     const data = result.data
-    const { subject, detail } = data
+    const { subject, imageURL, detail } = data
     const user = await getSession()
     const userId = user.id
 
@@ -40,6 +42,7 @@ export default async function post(prevState: unknown, formData: FormData):
         const newPost = await prisma.post.create({
             data: {
                 subject,
+                imageURL,
                 detail,
                 userId,
             },
@@ -48,6 +51,6 @@ export default async function post(prevState: unknown, formData: FormData):
     }
     catch (error) {
         console.log("error: " + error)
-        return { error: { message: "Invalid email address" } }
+        return { error: { message: error + "" } }
     }
 }

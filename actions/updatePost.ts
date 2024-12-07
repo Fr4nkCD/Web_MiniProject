@@ -6,12 +6,14 @@ import { z } from "zod";
 
 const addSchema = z.object({
     id: z.string(),
+    imageURL: z.string(),
     subject: z.string().min(3).max(100),
     detail: z.string().min(10),
 })
 
 type fieldErrors = {
     id?: string[] | undefined;
+    imageURL?: string[] | undefined;
     subject?: string[] | undefined;
     detail?: string[] | undefined;
     message?: string | undefined;
@@ -37,7 +39,7 @@ export default async function updatePost(prevState: unknown, formData: FormData)
     }
 
     const data = result.data
-    const { id, subject, detail } = data
+    const { id, subject, imageURL, detail } = data
 
     try {
         await prisma.post.update({
@@ -46,13 +48,14 @@ export default async function updatePost(prevState: unknown, formData: FormData)
             },
             data: {
                 subject,
+                imageURL,
                 detail,
             },
         });
+        return { data: id, message: "Post successfully updated" }
     }
     catch (error) {
         console.log("error: " + error)
         return { error: { message: error + "" } }
     }
-    return { message: "success" }
 }

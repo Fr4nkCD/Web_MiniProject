@@ -15,15 +15,18 @@ model User {
   email    String  @unique
   name     String
   password String
+  avatarURL   String?
   role     String  @default("Member")
   posts    Post[]
   Reply    Reply[]
+  Banned   Boolean @default(false)
 }
 
 model Post {
   id        Int      @id @default(autoincrement())
   subject   String
   detail    String
+  imageURL  String?
   likes     Int      @default(0)
   replies   Reply[]
   userId    Int
@@ -40,6 +43,6 @@ model Reply {
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Post      Post?    @relation(fields: [postId], references: [id])
-  postId    Int?
+  Post      Post    @relation(fields: [postId], references: [id])
+  postId    Int
 }

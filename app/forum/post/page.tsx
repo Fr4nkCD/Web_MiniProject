@@ -39,7 +39,7 @@ export default async function PostDetail({ searchParams }: { searchParams: { [ke
             <br />
             <div className="flex justify-between">
                 <h1 className="text-3xl font-semibold">{post?.subject}</h1>
-                <div className="flex justify-end gap-2 items-center h-5">
+                <div className="flex justify-end gap-3 items-center h-5">
                     {(user && user.id == post?.userId) ? <Link href={{
                         pathname: '/forum/post/edit',
                         query: { id: postId, subject: post?.subject, detail: post?.detail }
@@ -59,9 +59,16 @@ export default async function PostDetail({ searchParams }: { searchParams: { [ke
                     <span className="text-gray-600 font-semibold">{post?.user.name}</span>
                     <span className="text-gray-400">{post?.user.role}</span>
                 </div>
-                <span className="text-sm text-gray-500" title={post.createdAt.toDateString() + "  " + post.createdAt.toLocaleTimeString()}>{moment(post.createdAt).fromNow()}</span>
+                <div className="flex gap-1">
+                    <span className="text-sm text-gray-500" title={post.createdAt.toDateString() + "  " + post.createdAt.toLocaleTimeString()}>{moment(post.createdAt).fromNow()}</span>
+                    {(post.createdAt.getTime() != post.updatedAt.getTime()) ? <span className="text-sm text-gray-500" title={post.updatedAt.toDateString() + "  " + post.updatedAt.toLocaleTimeString()}>(edited)</span> : <></>}
+                </div>
             </div>
-            <section className="px-4 py-6">{post?.detail}</section>
+            <section className="px-4 py-6">
+                {post?.imageURL ? <div className="flex justify-center"> <img src={post.imageURL} /> </div> : <></>}
+                <br />
+                {post?.detail}
+            </section>
 
 
             <div style={{ visibility: user ? "visible" : "hidden" }}>
@@ -79,14 +86,17 @@ export default async function PostDetail({ searchParams }: { searchParams: { [ke
                             <span className="text-gray-600 font-semibold">{reply.user.name}</span>
                             <span className="text-gray-400">{reply.user.role}</span>
                         </div>
-                        <span className="text-sm text-gray-500" title={reply.createdAt.toDateString() + "  " + reply.createdAt.toLocaleTimeString()}>{moment(reply.createdAt).fromNow()}</span>
+                        <div className="flex gap-1">
+                            <span className="text-sm text-gray-500" title={reply.createdAt.toDateString() + "  " + reply.createdAt.toLocaleTimeString()}>{moment(reply.createdAt).fromNow()}</span>
+                            {(reply.createdAt.getTime() != reply.updatedAt.getTime()) ? <span className="text-sm text-gray-500" title={reply.updatedAt.toDateString() + "  " + reply.updatedAt.toLocaleTimeString()}>(edited)</span> : <></>}
+                        </div>
                     </div>
                     <section className="px-4 pt-4 pb-6">{reply.detail}</section>
 
-                    <div>
+                    <div className="flex gap-3 justify-end items-center">
                         {(user && user.id == reply.userId) ? <Link href={{
                             pathname: '/forum/post/edit',
-                            query: { id: postId, subject: post?.subject, detail: post?.detail }
+                            query: { id: postId, subject: post?.subject, imageURL: post?.imageURL, detail: post?.detail }
                         }}
                             className={buttonRound1}>
                             Edit

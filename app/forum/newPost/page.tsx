@@ -4,8 +4,7 @@ import post from "@/actions/post"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import SubmitButton from "@/components/submitButton"
-
-const style = 'border-2 border-black text-blue-800 px-2 py-1 rounded hover:bg-blue-100 focus-within:bg-blue-200'
+import { buttonBasic, buttonBasic2, textbox1 } from "@/components/stylesheet"
 
 export default function New() {
 
@@ -16,18 +15,24 @@ export default function New() {
     }
     
     return (
-        <>
-            New
+        <div className="m-10 flex flex-col">
+            <h1 className="text-lg font-semibold text-center">New Post</h1>
+            <br/>
             <hr />
             <form action={action} className="mt-4">
                 <div className="flex flex-col mb-2">
-                    <label htmlFor="subject">Subject</label>
-                    <input className={style} type="subject" name="subject" id="subject" required />
+                    <label htmlFor="subject" className="font-semibold text-sm mb-2"> Title </label>
+                    <input className={textbox1} type="subject" name="subject" id="subject" required />
                     {data.error?.subject && <div className="text-red-600">{data.error?.subject[0]}</div>}
                 </div>
+                <div className="flex flex-col mb-2">
+                    <label htmlFor="subject" className="font-semibold text-sm mb-2"> Thumbnail URL (Optional) </label>
+                    <input className={textbox1} type="url" name="imageURL" id="imageURL" />
+                    {data.error?.imageURL && <div className="text-red-600">{data.error?.imageURL[0]}</div>}
+                </div>
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="detail">Detail</label>
-                    <textarea className={style} name="detail" id="detail" required />
+                    <label htmlFor="detail" className="font-semibold text-sm mb-2"> Detail </label>
+                    <textarea className={`${textbox1} min-h-[128px]`} name="detail" id="detail" required />
                     {data.error?.detail && <div className="text-red-600">{data.error?.detail[0]}</div>}
                 </div>
                 <div>
@@ -37,8 +42,8 @@ export default function New() {
                     {data.message ? <p>{data.message}</p> : <SubmitButton label="Post" />}
                 </div>
             </form>
-            <br /><hr />
-            <Link href="/forum">Back</Link>
-        </>
+            <br /><hr /><br />
+            <Link href="/forum" className={`${buttonBasic2} border rounded-md w-[64px] text-center`}>Back</Link>
+        </div>
     )
 } 
