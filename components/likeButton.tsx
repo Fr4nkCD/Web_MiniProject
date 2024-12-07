@@ -50,7 +50,7 @@ export default function LikeButton({
             onClick={handleClick}
         >
             <Image src={liked ? thumbupOn : thumbup} width={25} alt="Likes" />
-            <span className={`text-[${liked ? "#64acff" : "rgb(150,150,150)"}] font-semibold`}>{count}</span>
+            <span className="text-[rgb(150,150,150)] font-semibold">{count}</span>
         </button>
     );
 }
